@@ -16,9 +16,8 @@ client.connect(err => {
     
     if (err) {
         console.log(err)
-        response.send("Error")
     }
-    
+
     app.listen(process.env.PORT || 3000, function() {
         console.log('listening on 3000')
     })
