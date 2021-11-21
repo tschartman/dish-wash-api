@@ -14,6 +14,11 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 client.connect(err => {
     
+    if (err) {
+        console.log(err)
+        response.send("Error")
+    }
+    
     app.listen(process.env.PORT || 3000, function() {
         console.log('listening on 3000')
     })
@@ -33,7 +38,6 @@ client.connect(err => {
     app.post('/washer/update', async (req, res) => {
         const clean = req.body.clean;
         const updatedResult = await db.collection('dishwashers').updateOne({}, { $set: {clean: clean}})
-        console.log(updatedResult)
         res.send(updatedResult)
     })
 });
