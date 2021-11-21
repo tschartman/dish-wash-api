@@ -22,6 +22,10 @@ client.connect(err => {
 
     app.get('/washer/status', function (request, response) {
         const status = db.collection('dishwashers').find().toArray((err, res) => {
+            if (err) {
+                console.log(err)
+                response.send("Error")
+            }
             response.send(res)
         })
     })
