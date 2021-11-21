@@ -5,7 +5,6 @@ const app = express()
 const cors = require('cors')
 app.use(express.json())
 const { MongoClient } = require('mongodb');
-
 app.use(cors())
 
 const uri = `mongodb+srv://${process.env.MONGO_USR}:${process.env.MONGO_PASS}@${process.env.MONGO_HOST}`;
