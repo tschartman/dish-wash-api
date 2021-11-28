@@ -6,6 +6,14 @@ const cors = require('cors')
 app.use(express.json())
 const { MongoClient } = require('mongodb');
 app.use(cors())
+const Discord = require('discord.js');
+const dclient = new Discord.Client({intents: Discord.Intents.FLAGS.GUILDS});
+
+dclient.once('ready', () => {
+	console.log('Ready!');
+});
+
+dclient.login(process.env.BOT_TOKEN);
 
 const uri = `mongodb+srv://${process.env.MONGO_USR}:${process.env.MONGO_PASS}@${process.env.MONGO_HOST}`;
 
@@ -36,6 +44,9 @@ client.connect(err => {
     app.post('/washer/update', async (req, res) => {
         const clean = req.body.clean;
         const updatedResult = await db.collection('dishwashers').updateOne({}, { $set: {clean: clean}})
+        const channel = dclient.channels.cache.find(channel => channel.name === "general")
+        const clean = clean ? 'Clean' : 'Dirty'
+        channel.send(`Dishwasher is ${clean}`)
         res.send(updatedResult)
     })
 });
