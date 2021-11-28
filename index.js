@@ -45,8 +45,8 @@ client.connect(err => {
         const clean = req.body.clean;
         const updatedResult = await db.collection('dishwashers').updateOne({}, { $set: {clean: clean}})
         const channel = dclient.channels.cache.find(channel => channel.name === "general")
-        const clean = clean ? 'Clean' : 'Dirty'
-        channel.send(`Dishwasher is ${clean}`)
+        const status = clean ? 'Clean' : 'Dirty'
+        channel.send(`Dishwasher is ${status}`)
         res.send(updatedResult)
     })
 });
