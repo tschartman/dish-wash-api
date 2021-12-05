@@ -30,8 +30,11 @@ const updateCollector = async (request, response, next) => {
     const newCollector = request.body.collector;
     const completed = request.body.completed;
     if (completed) {
+        const {collectors} = await db.db("dishwasherDB").collection('trash').findOne({name: "collectors"})
         const {collector} = await db.db("dishwasherDB").collection('trash').findOne({name: "collector"})
         const updatedResult1 = await db.db("dishwasherDB").collection('trash').updateOne({"count.key": collector}, { $inc: { 'count.$.count' : 1 }})
+        const channel = dclient.channels.cache.find(channel => channel.name === "general")
+        channel.send(`${collectors[collector]} has taken out the trash`)
     }
     const updatedResult = await db.db("dishwasherDB").collection('trash').updateOne({name: "collector"}, { $set: {collector: newCollector}})
     response.send(updatedResult)
