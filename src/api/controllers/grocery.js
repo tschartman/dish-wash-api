@@ -17,7 +17,7 @@ const insertItem = async (request, response, next) => {
     const item = request.body.name;
     const updatedResult = await db.db("dishwasherDB").collection('grocery').insertOne({name: item})
     const channel = dclient.channels.cache.find(channel => channel.name === "general")
-    //channel.send(`${item} has been added to the grocery list`)
+    channel.send(`${item} has been added to the grocery list`)
     response.send(updatedResult)
 }
 
@@ -25,7 +25,7 @@ const deleteItem = async (request, response, next) => {
     const item = request.body.name;
     const updatedResult = await db.db("dishwasherDB").collection('grocery').deleteOne({name: item})
     const channel = dclient.channels.cache.find(channel => channel.name === "general")
-    //channel.send(`${item} has been removed from the grocery list`)
+    channel.send(`${item} has been removed from the grocery list`)
     response.send(updatedResult)
 }
 
